@@ -1,0 +1,7 @@
+django>=4.1
+psycopg2
+gunicorn
+djangorestframework
+django-cors-headers
+django-filter
+hgvs

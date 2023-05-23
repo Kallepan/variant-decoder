@@ -24,11 +24,11 @@ def request(url, headers=None, params=None):
 
 def main():
     """
-        HG19: chr17 29508835 29508835
-        HG38: chr17 31181817 31181817
-                
-        Current: NM_000267.3 c.730+32_730+33insT # ENST00000356175
-        Desired: NC_000017:10.g.29508835dup
+    HG19: chr17 29508835 29508835
+    HG38: chr17 31181817 31181817
+            
+    Current: NM_000267.3 c.730+32_730+33insT # ENST00000356175
+    Desired: NC_000017:10.g.29508835dup
     """
     # This does not retrieve the correct data
     # The coordinates are off by almost 20000?

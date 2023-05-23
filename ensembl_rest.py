@@ -1,3 +1,7 @@
+"""
+This script does not currenlty work. Do not use it!
+"""
+
 import requests
 
 ENSEMBL_URL = 'https://rest.ensembl.org'

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uta-psql
+  namespace: genetics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uta-psql
+  template:
+    metadata:
+      labels:
+        app: uta-psql
+        tier: backend
+    spec:
+      containers:
+      - name: uta-psql
+        image: kallepan/uta:uta_20210129
+        ports:
+        - containerPort: 5432
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+        resources:
+          limits:
+            memory: "1Gi"
+          requests:
+            memory: "1Gi"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - uta_admin
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - uta_admin
+          initialDelaySeconds: 120
+          periodSeconds: 5
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
+      volumes:
+      - name: uta-psql
+        persistentVolumeClaim:
+          claimName: longhorn-uta-psql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uta-psql
+  namespace: genetics
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: uta-psql

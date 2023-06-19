@@ -15,6 +15,5 @@ docker push kallepan/uta:${UTA_VERSION}
 # Try to run the image
 docker container rm -f $UTA_VERSION
 docker volume rm uta_temp
-
 docker volume create uta_temp
-docker run -v /tmp:/tmp -v uta_temp:/var/lib/postgresql/data -e POSTGRES_PASSWORD=${UTA_PASS} --name $UTA_VERSION --network host kallepan/uta:${UTA_VERSION}
+docker run -p 30120:5432 -v /tmp:/tmp -v uta_temp:/var/lib/postgresql/data -e POSTGRES_PASSWORD=${UTA_PASS} --name $UTA_VERSION kallepan/uta:${UTA_VERSION}

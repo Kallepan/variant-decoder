@@ -1,0 +1,15 @@
+version: '3'
+services:
+  uta:
+    container_name: ${UTA_VERSION}
+    image: kallepan/uta:${UTA_VERSION}
+    ports:
+      - ${UTA_PORT}:5432
+    volumes:
+      - /tmp:/tmp
+      - uta:/var/lib/postgresql
+    env_file:
+      - .env
+
+volumes:
+  uta:

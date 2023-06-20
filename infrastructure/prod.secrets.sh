@@ -3,13 +3,18 @@
 # Create Kubernetes Secrets from local secrets.env
 #
 
-export $(grep -v '^#' ../.staging.env | xargs)
+export $(grep -v '^#' ../.env | xargs)
 
 echo ${DOCKER_REGISTRY_SERVER}
 
+
+kubectl --kubeconfig=$KUBECONFIG \
+    delete secret variant-decoder \
+    -n genetics
+
 kubectl --kubeconfig=$KUBECONFIG \
     create secret generic variant-decoder \
-    --from-env-file=../.staging.env \
+    --from-env-file=../.env \
     -n genetics
 
 kubectl --kubeconfig=$KUBECONFIG \

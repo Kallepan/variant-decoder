@@ -12,8 +12,6 @@ docker build --no-cache -f Dockerfile --build-arg uta_version=${UTA_VERSION} --b
 docker tag kallepan/uta:${UTA_VERSION} kallepan/uta:latest
 docker push kallepan/uta:${UTA_VERSION}
 
-# Try to run the image
-docker container rm -f $UTA_VERSION
-docker volume rm uta_temp
-docker volume create uta_temp
-docker run -p 30120:5432 -v /tmp:/tmp -v uta_temp:/var/lib/postgresql/data -e POSTGRES_PASSWORD=${UTA_PASS} --name $UTA_VERSION kallepan/uta:${UTA_VERSION}
+# Test/Run the UTA image
+docker-compose down -v
+docker-compose up

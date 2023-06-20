@@ -4,8 +4,6 @@ FROM python:3.9.15-buster as builder
 # setup environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
-# Necessary for Docker building behind a proxy
 ENV http_proxy=http://proxy.labmed.de:8080/
 ENV https_proxy=http://proxy.labmed.de:8080/
 
@@ -24,11 +22,10 @@ RUN chown -R www-data:www-data .
 
 FROM python:3.9.15-buster
 
-# Necessary for Docker building 
 ENV http_proxy=http://proxy.labmed.de:8080/
 ENV https_proxy=http://proxy.labmed.de:8080/
 
-RUN useradd -ms /bin/bash app
+RUN useradd -ms /bin/bash -u 1001 app
 
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
@@ -48,7 +45,7 @@ COPY src/ ${APP_HOME}
 RUN chmod -R 775 ${APP_HOME}/launch.sh
 RUN chown -R app:app ${APP_HOME}
 
-USER app
+USER 1001
 
 # start server
 ENTRYPOINT ["/home/app/web/launch.sh"]

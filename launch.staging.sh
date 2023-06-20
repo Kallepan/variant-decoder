@@ -12,4 +12,4 @@ if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ] ; 
     (echo "Config is done :)")
 fi
 
-gunicorn molg_app.wsgi:application --bind 0.0.0.0:9000 --workers 3
+gunicorn variant_decoder.wsgi:application --bind 0.0.0.0:9000 --workers 3

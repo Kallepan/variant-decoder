@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: variant-decoder
+  namespace: genetics
+  labels:
+    app: variant-decoder
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: variant-decoder
+  template:
+    metadata:
+      labels:
+        app: variant-decoder
+        tier: backend
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+        - image: kallepan/variant-decoder:IMAGE_TAG
+          imagePullPolicy: Always
+          name: variant-decoder
+          envFrom:
+            - secretRef:
+                name: variant-decoder
+          ports:
+            - containerPort: 9000
+              name: gunicorn
+          resources:
+            limits:
+              memory: "1Gi"
+            requests:
+              memory: "1Gi"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: variant-decoder
+  namespace: genetics
+  labels:
+    app: variant-decoder
+    tier: backend
+spec:
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    app: variant-decoder
+  type: ClusterIP

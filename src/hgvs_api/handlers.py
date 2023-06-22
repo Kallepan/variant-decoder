@@ -9,8 +9,8 @@ import logging
 
 HOST = os.environ.get("UTA_HOST", "localhost")
 PORT = os.environ.get("UTA_PORT", "30120")
-VERSION = os.environ.get("UTA_VERSION", "20210129")
-DB_URL = f"postgresql://anonymous@{HOST}:{PORT}/uta/{VERSION}"
+VERSION = os.environ.get("UTA_VERSION", "uta_20210129")
+DB_URL = f"postgresql://anonymous:anonymous@{HOST}/uta/{VERSION}"
 
 class HGVSWrapper:
     def __init__(self) -> None:

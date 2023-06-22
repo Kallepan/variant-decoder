@@ -9,6 +9,19 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: uta-claim-2
+  namespace: genetics
+spec:
+  storageClassName: longhorn
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
       storage: 10Gi
 ---
 apiVersion: apps/v1
@@ -67,11 +80,18 @@ spec:
           successThreshold: 1
           failureThreshold: 10
         volumeMounts:
+          - name: dshm
+            mountPath: /dev/shm
+            readOnly: false
           - name: uta-psql
             mountPath: /var/lib/postgres/data
             readOnly: false
             subPath: uta_20210129
       volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            #sizeLimit: 1Gi # default is 50% of RAM
         - name: uta-psql
           persistentVolumeClaim:
             readOnly: false

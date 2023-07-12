@@ -1,0 +1,17 @@
+variables:
+  NO_PROXY: "localhost,.server.home"
+
+services:
+  - name: docker:dind
+    entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
+
+before_script:
+  - docker info
+
+build:
+  image: docker:stable
+  stage: build
+  script:
+    - docker login -u "${DOCKER_REGISTRY_USER}" -p "${DOCKER_REGISTRY_PASS}" registry.server.home
+    - docker build -t registry.server.home/kalle/variant-decoder:latest .
+    - docker push registry.server.home/kalle/variant-decoder:latest

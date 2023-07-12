@@ -22,9 +22,6 @@ RUN chown -R www-data:www-data .
 
 FROM python:3.9.15-buster
 
-ENV http_proxy=http://proxy.labmed.de:8080/
-ENV https_proxy=http://proxy.labmed.de:8080/
-
 RUN useradd -ms /bin/bash app
 
 ENV HOME=/home/app

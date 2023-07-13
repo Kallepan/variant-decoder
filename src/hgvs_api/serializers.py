@@ -17,3 +17,13 @@ class TranscriptSerializer(serializers.Serializer):
         default=False,
         required=False,
     )
+
+class GDNASerializer(serializers.Serializer):
+    """
+    This is just a serializer for receiving the gDNA variant.
+    Note that validation is done in the handler.
+    """
+    gDNA_variant = serializers.CharField(
+        max_length=100,
+        required=True,
+    )

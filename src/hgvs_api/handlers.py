@@ -16,6 +16,18 @@ class HGVSWrapper:
     def __init__(self) -> None:
         self.hdp = hgvs.dataproviders.uta.connect(db_url=DB_URL)
     
+    def validate_gDNA_variant(self, gDNA: str) -> None:
+        logging.info(f"Validating {gDNA}")
+
+        # Create a parser
+        parser = hgvs.parser.Parser()
+        # Parse the gDNA variant
+        try:
+            hgvs_g = parser.parse(gDNA)
+        except hgvs.exceptions.HGVSParseError as e:
+            logging.error(f"Could not parse {gDNA}")
+            raise e
+
     def translate_cDNA_to_genomic(self, cDNA: str, hg38: bool = False) -> str:
         logging.info(f"Translating {cDNA} to genomic coordinates to hg38={hg38} or hg19={not hg38}")
         

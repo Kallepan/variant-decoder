@@ -33,7 +33,7 @@ spec:
       imagePullSecrets:
       - name: regcred
       containers:
-        - image: kallepan/variant-decoder:v1
+        - image: kallepan/variant-decoder:v2
           imagePullPolicy: Always
           name: variant-decoder
           envFrom:

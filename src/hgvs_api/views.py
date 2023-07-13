@@ -1,11 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import TranscriptSerializer
+from .serializers import TranscriptSerializer, GDNASerializer
 
 from .handlers import HGVSWrapper
-
-import hgvs.exceptions
 
 class TranscriptView(APIView):
     def post(self, request):
@@ -22,7 +20,26 @@ class TranscriptView(APIView):
         hgvs_handler = HGVSWrapper()
         try:
             res = hgvs_handler.translate_cDNA_to_genomic(cDNA_variant, hg38=hg38)
-        except hgvs.exceptions.HGVSParseError as e:
-            return Response(e, status=400)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
         
         return Response(res, status=200)
+
+class ValidateGDNAView(APIView):
+    def post(self, request):
+        serializer = GDNASerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+        
+        # Now that we have a valid serializer, we can access the validated data
+        gDNA_variant = serializer.validated_data.get('gDNA_variant')
+
+        hgvs_handler = HGVSWrapper()
+
+        try:
+            hgvs_handler.validate_gDNA_variant(gDNA_variant)
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+
+        return Response(gDNA_variant, status=200)

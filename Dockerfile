@@ -4,8 +4,8 @@ FROM python:3.9.15-buster as builder
 # setup environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV http_proxy=http://proxy.labmed.de:8080/
-ENV https_proxy=http://proxy.labmed.de:8080/
+# ENV http_proxy=http://proxy.labmed.de:8080/
+# ENV https_proxy=http://proxy.labmed.de:8080/
 
 WORKDIR /usr/src/app
 

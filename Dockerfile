@@ -22,9 +22,6 @@ RUN chown -R www-data:www-data .
 
 FROM python:3.9.15-buster
 
-ENV http_proxy=http://proxy.labmed.de:8080/
-ENV https_proxy=http://proxy.labmed.de:8080/
-
 RUN useradd -ms /bin/bash -u 1001 app
 
 ENV HOME=/home/app
@@ -33,7 +30,7 @@ RUN mkdir ${APP_HOME}
 WORKDIR ${APP_HOME}
 
 # install dependencies
-RUN apt-get update && apt-get install nano postgresql netcat -y --no-install-recommends
+RUN apt-get update && apt-get install nano postgresql netcat rsync -y --no-install-recommends
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip

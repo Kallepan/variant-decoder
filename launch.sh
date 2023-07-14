@@ -4,6 +4,7 @@
 
 sleep 15
 seqrepo -r $HGVS_SEQREPO pull
+
 # Check if the previous command was successful
 if [ $? -eq 0 ]; then
     echo "seqrepo pull successful.Setting up seqrepo"

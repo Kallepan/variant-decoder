@@ -31,31 +31,28 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(",")
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
+    # 'django.contrib.admin',
+    # 'django.contrib.auth',
+    # 'django.contrib.sessions',
+    # 'django.contrib.messages',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
 
     # Third Party
     'rest_framework',
     'corsheaders',
-    'django_filters',
 
     # Custom
-    'authentication',
     'hgvs_api',
 ]
 
 MIDDLEWARE = [
+    # "django.contrib.auth.middleware.AuthenticationMiddleware",
+    # "django.contrib.messages.middleware.MessageMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    #"django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -83,19 +80,7 @@ WSGI_APPLICATION = 'variant_decoder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("SQL_USER", ""),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", ""),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", ""),
-        "TEST": {
-            'NAME': os.path.join('src', 'test_db.sqlite3'),
-        },
-    }
-}
+DATABASES = { }
 
 
 # Password validation
@@ -116,8 +101,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH USER MODEL
-AUTH_USER_MODEL = 'authentication.User'
+REST_FRAMEWORK = {
+    # other settings...
+    'UNAUTHENTICATED_USER': None,
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

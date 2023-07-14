@@ -3,6 +3,7 @@
 # launch.sh
 
 sleep 15
+mkdir -p $HGVS_SEQREPO
 seqrepo -r $HGVS_SEQREPO pull
 
 # Check if the previous command was successful

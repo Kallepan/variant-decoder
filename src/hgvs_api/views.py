@@ -5,7 +5,17 @@ from .serializers import TranscriptSerializer, GDNASerializer
 
 from .handlers import HGVSWrapper
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
+
+
 class TranscriptView(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+
     def post(self, request):
         serializer = TranscriptSerializer(data=request.data)
 
@@ -26,6 +36,7 @@ class TranscriptView(APIView):
         return Response(res, status=200)
 
 class ValidateGDNAView(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def post(self, request):
         serializer = GDNASerializer(data=request.data)
 

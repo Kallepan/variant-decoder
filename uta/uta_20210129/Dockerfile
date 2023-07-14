@@ -1,11 +1,7 @@
 FROM postgres:15
 
-ARG http_proxy
-ARG https_proxy
 ARG uta_version
 
-ENV http_proxy=$http_proxy
-ENV https_proxy=$https_proxy
 ENV UTA_VERSION=$uta_version
 
 RUN apt-get update && apt-get install -y curl
